@@ -13,6 +13,3 @@ INSERT INTO CHARGES(tooltype, dailycharge, weekdaycharge, weekendcharge, holiday
     ('Ladder', 1.99, true, true, false),
     ('Chainsaw', 1.49, true, false, true),
     ('Jackhammer', 2.99, true, false, false);
-
---INSERT INTO CHECKOUTS(tool_code, rental_days, discount_percent, checkout_date) VALUES
---    ('JAKR', 5, 101, '2015-09-03');

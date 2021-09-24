@@ -2,7 +2,6 @@ package com.rentaldepot.demo.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Checkout implements Serializable {
     private static final long serialVersionUID = -8115344784070789773L;
