@@ -2,7 +2,7 @@
 Allows users to checkout various tools
 
 ### Technical Overview
-This is a REST service built on Sprint Boot, MyBatis, and H2. Built with IntelliJ. There is currently no frontend
+This is a REST service built on Java 11, Sprint Boot, MyBatis, and H2. Built with IntelliJ. There is currently no frontend
 but it should be easy enough to integrate one. You can use Postman or a similar HTTP client to
 interact with the service. The service runs on port `8082`.
 
