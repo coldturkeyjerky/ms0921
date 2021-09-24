@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.rentaldepot.demo.model.Checkout;
 import com.rentaldepot.demo.model.RentalAgreement;
 import com.rentaldepot.demo.service.CheckoutService;
+import com.rentaldepot.demo.service.RentalAgreementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,25 +19,27 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class CheckoutController {
 
     @Autowired
-    private CheckoutService service;
+    private CheckoutService checkoutService;
+
+    @Autowired
+    private RentalAgreementService rentalService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<RentalAgreement> save(@RequestBody Checkout checkout) {
         Preconditions.checkNotNull(checkout);
 
-        if (checkout.getDiscount_percent() > 100 || checkout.getDiscount_percent() < 0) {
+        if (checkout.getDiscountPercent() > 100 || checkout.getDiscountPercent() < 0) {
             return ResponseEntity.badRequest().build();
         }
 
-        service.saveCheckout(checkout);
-        service.saveRentalAgreement(checkout);
-        RentalAgreement agreement = service.findRentalAgreement(checkout);
-
-        if (agreement == null) {
+        checkoutService.saveCheckout(checkout);
+        rentalService.saveRentalAgreement(checkout);
+        RentalAgreement agreementResponse = rentalService.findRentalAgreement(checkout);
+        if (agreementResponse == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body(agreement);
+        return ResponseEntity.ok().body(agreementResponse);
     }
 
 }

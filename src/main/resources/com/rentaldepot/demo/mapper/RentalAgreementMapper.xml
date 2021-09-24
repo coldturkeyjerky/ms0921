@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+       Copyright 2010-2020 the original author or authors.
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rentaldepot.demo.mapper.RentalAgreementMapper">
+    <cache />
+    <insert id="saveAgreement" parameterType="Checkout">
+        INSERT INTO rental_agreements (
+            toolcode,
+            tooltype,
+            toolbrand,
+            rentaldays,
+            checkoutdate,
+            duedate,
+            dailyrentalcharge,
+            chargedays,
+            prediscountcharge,
+            discountpercent,
+            discountamount,
+            finalcharge
+        )
+        SELECT
+        tools.toolcode,
+        tools.tooltype,
+        tools.toolbrand,
+        checkouts.rentaldays,
+        checkouts.checkoutdate,
+        DATEADD('day', checkouts.rentaldays, checkouts.checkoutdate),
+        charges.dailycharge,
+        GET_CHARGE_DAYS(charges.weekdaycharge, charges.weekendcharge, charges.holidaycharge, checkouts.checkoutdate, DATEADD('day', checkouts.rentaldays, checkouts.checkoutdate)),
+        GET_CHARGE_DAYS(charges.weekdaycharge, charges.weekendcharge, charges.holidaycharge, checkouts.checkoutdate, DATEADD('day', checkouts.rentaldays, checkouts.checkoutdate)) * charges.dailycharge,
+        checkouts.discountpercent,
+        (GET_CHARGE_DAYS(charges.weekdaycharge, charges.weekendcharge, charges.holidaycharge, checkouts.checkoutdate, DATEADD('day', checkouts.rentaldays, checkouts.checkoutdate)) * charges.dailycharge) * (checkouts.discountpercent / 100.0),
+        (GET_CHARGE_DAYS(charges.weekdaycharge, charges.weekendcharge, charges.holidaycharge, checkouts.checkoutdate, DATEADD('day', checkouts.rentaldays, checkouts.checkoutdate)) * charges.dailycharge)  - ((GET_CHARGE_DAYS(charges.weekdaycharge, charges.weekendcharge, charges.holidaycharge, checkouts.checkoutdate, DATEADD('day', checkouts.rentaldays, checkouts.checkoutdate)) * charges.dailycharge) * (checkouts.discountpercent / 100.0))
+        FROM tools
+        INNER JOIN checkouts
+        ON tools.toolcode = checkouts.toolcode
+        INNER JOIN charges
+        ON tools.tooltype = charges.toolType
+        WHERE checkouts.toolcode = #{toolCode}
+        AND checkouts.rentaldays = #{rentalDays}
+        AND checkouts.discountpercent = #{discountPercent}
+        AND checkouts.checkoutdate = #{checkoutDate}
+    </insert>
+    
+    <select id="findAgreement" parameterType="Checkout" resultType="RentalAgreement">
+        SELECT * FROM rental_agreements
+        WHERE toolcode = #{toolCode}
+        AND rentaldays = #{rentalDays}
+        AND discountpercent = #{discountPercent}
+        AND checkoutdate = #{checkoutDate}
+    </select>
+</mapper>

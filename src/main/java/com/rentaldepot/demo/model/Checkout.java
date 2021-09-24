@@ -1,59 +1,63 @@
 package com.rentaldepot.demo.model;
 
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
-public class Checkout {
-    private Long id;
-    private String tool_code;
-    private int rental_days;
-    private int discount_percent;
-    private Date checkout_date;
+public class Checkout implements Serializable {
+    private static final long serialVersionUID = -8115344784070789773L;
 
-    public Checkout(Long id, String tool_code, int rental_days, int discount_percent, Date checkout_date) {
+    private long id;
+    private String toolCode;
+    private int rentalDays;
+    private int discountPercent;
+    private LocalDate checkoutDate;
+
+    public Checkout(long id, String toolCode, int rentalDays, int discountPercent, LocalDate checkoutDate) {
         this.id = id;
-        this.tool_code = tool_code;
-        this.rental_days = rental_days;
-        this.discount_percent = discount_percent;
-        this.checkout_date = checkout_date;
+        this.toolCode = toolCode;
+        this.rentalDays = rentalDays;
+        this.discountPercent = discountPercent;
+        this.checkoutDate = checkoutDate;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getTool_code() {
-        return tool_code;
+    public String getToolCode() {
+        return toolCode;
     }
 
-    public void setTool_code(String tool_code) {
-        this.tool_code = tool_code;
+    public void setToolCode(String toolCode) {
+        this.toolCode = toolCode;
     }
 
-    public int getRental_day_count() {
-        return rental_days;
+    public int getRentalDays() {
+        return rentalDays;
     }
 
-    public void setRental_day_count(int rental_day_count) {
-        this.rental_days = rental_day_count;
+    public void setRentalDays(int rentalDays) {
+        this.rentalDays = rentalDays;
     }
 
-    public int getDiscount_percent() {
-        return discount_percent;
+    public int getDiscountPercent() {
+        return discountPercent;
     }
 
-    public void setDiscount_percent(int discount_percent) {
-        this.discount_percent = discount_percent;
+    public void setDiscountPercent(int discountPercent) {
+        this.discountPercent = discountPercent;
     }
 
-    public Date getCheckout_date() {
-        return checkout_date;
+    public LocalDate getCheckoutDate() {
+        return checkoutDate;
     }
 
-    public void setCheckout_date(Date checkout_date) {
-        this.checkout_date = checkout_date;
+    public void setCheckoutDate(LocalDate checkoutDate) {
+        this.checkoutDate = checkoutDate;
     }
 }

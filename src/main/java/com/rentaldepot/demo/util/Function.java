@@ -88,7 +88,7 @@ public class Function {
         );
     }
 
-    public static boolean isLaborDay(LocalDate day) {
+    private static boolean isLaborDay(LocalDate day) {
         if (day.getMonth().equals(Month.SEPTEMBER) && day.getDayOfMonth() <= 7
                 && day.getDayOfWeek().equals(DayOfWeek.MONDAY)) {
             return true;
@@ -96,14 +96,14 @@ public class Function {
         return false;
     }
 
-    public static boolean isIndependenceDay(LocalDate day) {
+    private static boolean isIndependenceDay(LocalDate day) {
         if (day.getMonth() == Month.JULY && day.getDayOfMonth() == 4) {
             return true;
         }
         return false;
     }
 
-    public static boolean isWeekend(LocalDate day) {
+    private static boolean isWeekend(LocalDate day) {
 
         if (day.getDayOfWeek() == DayOfWeek.SATURDAY || day.getDayOfWeek() == DayOfWeek.SUNDAY) {
             return true;
